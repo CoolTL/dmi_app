@@ -33,15 +33,5 @@ class WeatherView(QWidget):
         self.button.clicked.connect(self.dataRequested.emit)
 
     def plot_temperature_points(self, df):
-        times, ticks, y = df
         """Plot temperaturdata """
-        fig, ax = plt.subplots()
-        ax.plot(times, y)
-
-        ax.set_xticks(ticks)
-        ax.set_xticklabels(ticks, rotation=45)
-
-        ax.grid(True, linestyle='-.')
-        ax.tick_params(labelcolor='r', labelsize='small', width=3)
-
-        plt.show()
+        

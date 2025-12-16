@@ -77,4 +77,4 @@ class WeatherModel:
                     other = 1
                 else:
                     other -= 1
-        return ticks, y
+        return times, ticks, y
