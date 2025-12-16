@@ -13,5 +13,5 @@ class WeatherController:
 
     def update_plot(self):
         """Kaldes når brugeren trykker på knappen"""
-        df = self.model.get_temperature_data()
+        df = self.model.format_time()
         self.view.plot_temperature_points(df)

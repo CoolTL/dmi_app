@@ -1,4 +1,3 @@
-import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel
@@ -19,14 +18,11 @@ class WeatherView(QWidget):
         self.layout.addWidget(self.label)
         self.layout.addWidget(self.button)
 
-        # Opret Cartopy-kort
+        # Make the matplotlib figure
         self.fig = plt.figure(figsize=(5, 5))
-        self.ax = self.fig.add_subplot(1, 1, 1, projection=ccrs.PlateCarree())
-        self.ax.set_extent([8, 15, 54.5, 58])
-        self.ax.coastlines()
+        self.ax = self.fig.add_subplot(1,1,1)
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.layout.addWidget(self.canvas)
-
         self.setLayout(self.layout)
 
         # Signal-slot forbindelse
@@ -35,13 +31,15 @@ class WeatherView(QWidget):
     def plot_temperature_points(self, df):
         times, ticks, y = df
         """Plot temperaturdata """
-        fig, ax = plt.subplots()
-        ax.plot(times, y)
+        # Clear data and plot new data
+        self.ax.cla()
+        self.ax.plot(times, y)
+        # Set the labels
+        self.ax.set_xticks(ticks)
+        self.ax.set_xticklabels(ticks, rotation=45)
 
-        ax.set_xticks(ticks)
-        ax.set_xticklabels(ticks, rotation=45)
+        self.ax.grid(True, linestyle='-.')
+        self.ax.tick_params(labelcolor='r', labelsize='small', width=3)
+        # Redraw the figure
+        self.canvas.draw_idle()
 
-        ax.grid(True, linestyle='-.')
-        ax.tick_params(labelcolor='r', labelsize='small', width=3)
-
-        plt.show()
